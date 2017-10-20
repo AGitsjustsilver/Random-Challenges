@@ -1,5 +1,7 @@
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 
     /**
      * Challenge
@@ -21,11 +23,11 @@ import java.util.ArrayList;
     /**
      * The plan
      * 
-     * Gather the string input
+     * Gather the string input-
      * 
-     * Split the string into an array of characters
+     * Split the string into an array of characters-
      * 
-     * find the amount of time each character is found and then is counted into an int array
+     * find the amount of time each character is found and then is counted into an int array-
      * there will be 27 elements (all letters (26) and underscore (27)
      * the order of the index will go as followed
      *      a = 0 ... z = 25 _ = 26
@@ -42,15 +44,20 @@ public class LongStringChallenge{
     
     //fields
     private String userInput;
-    private ArrayList<char> splitInput = new ArrayList<char>();
-    private ArrayList<int> occurance = new ArrayList<int>(27);
-    private ArrayList<char> splitOutput = new ArrayList<char>();
+    private ArrayList<Character> splitInput = new ArrayList<Character>();
+    private Map<Character,Integer> valuesOfChar = new HashMap<Character,Integer>();
+    private ArrayList<Integer> occurance = new ArrayList<Integer>(27);
+    private ArrayList<Character> splitOutput = new ArrayList<Character>();
+    private ArrayList<String> splitStringOutput;
     private String output;
-    private final String REGX = "[a-z_]";
+    
+    private static final char[] ALPH = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '_'};
+    private static final String REGX_INCLUDING = "[a-z_]";
+    private static final String REGX_EXCLUDING = "[\\s]";
     
     //constructors
     public LongStringChallenge(String in){
-        
+        doTheThing(in);
     }
     
     //accessors
@@ -58,16 +65,20 @@ public class LongStringChallenge{
         return userInput;
     }
     
-    public ArrayList<char> getSplitInput(){
+    public ArrayList<Character> getSplitInput(){
         return splitInput;
     }
     
-    public ArrayList<int> getOccurrence(){
+    public ArrayList<Integer> getOccurrence(){
         return occurance;
     }
     
-    public ArrayList<char> getSplitOutput(){
+    public ArrayList<Character> getSplitOutput(){
         return splitOutput;
+    }
+
+    public ArrayList<String> getSplitStringOutput(){
+        return splitStringOutput;
     }
     
     public String getOutput(){
@@ -75,23 +86,79 @@ public class LongStringChallenge{
     }
     
     //mutators
+    /**
+     * Takes in the user input and stores it in a variable within the class
+     * @param: String in - A String input
+     */
     public void setInput(String in){
         userInput = in;
     }
     
-    // misc methods
-    public void doTheThing(String ls){
-        
+    /**
+     * Takes the stored user input and first checks if it is empty
+     * If it is not empty it converts the user input to an Array of characters and then get turned into an ArrayList of characters
+     * If it is empty an error message gets sent out
+     */
+    public void setSplitInput(){
+        if(!(userInput.isEmpty())){
+            toArrayList(userInput.toCharArray());
+        }else{
+            System.out.println("User input cannot be empty!");
+        }
     }
     
-    public char[] 
+    /**
+     * Goes through the split input array list and starts to count the amount of times each character (a-z including _) shows up
+     * 
+     */
+    public void setOccurance(){
+        //goes through the whole split input arraylist
+        for(int i = 0; i < getSplitInput().size(); i++){ // i is the index of the character of the split input array
+            //checking the hashmap
+            for(int g = 0; g < valuesOfChar.size(); g++){// g is the index of the charcter for the occurance
+                if(splitInput.get(i) == ALPH[g]){//in theory, once found it exits the loop for the next character in the split arraylist
+                    occurance.set(g, occurance.get(g)+ 1);
+                    break;
+                }
+            }
+        }
+    }
+    
+    // misc methods
+    public void doTheThing(String ls){
+        setInput(ls);
+        setSplitInput();
+        setOccurance();
+    }
+    
+    /**
+     * Takes a predefined alphabet and puts every character in said alphabet into a hashmap that then in turn has the value of that character
+     */
+    public void createHashMap(){
+        for(int i = 0; i < ALPH.length; i++){
+            valuesOfChar.put(ALPH[i], i);
+        }
+    }
+    
+    /**
+     * @param: T[] array - an array of T(data type) 
+     * @return: ArrayList<T> arrayList - the converted arrayList from the array of T(data type)
+     */
+    public ArrayList<Character> toArrayList(char[] a){
+        ArrayList<Character> temp = new ArrayList<Character>();
+        for(int i = 0; i < a.length; i++){
+            temp.add(i, a[i]);
+        }
+        return temp;
+    }
+
     
     //Client
-    public static void main(String[] args){
+    /**public static void main(String[] args){
         Scanner scan = new Scanner(System.in);
         System.out.print("Enter a large String: ");
         String inp = scan.next();
         LongStringChallenge.doTheThing(inp);
         scan.close();
-    }
+    }*/
 }
