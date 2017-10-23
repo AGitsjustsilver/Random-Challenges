@@ -10,6 +10,8 @@ import java.util.ArrayList;
      * take the sorted String, and drop all the character after (and including) the_.
      * The remaining word is the answer.
      * 
+	 * https://dev.to/benhayehudi/solving-a-job-application-code-challenge-30d
+ 	 *
      **/
      
     /**
