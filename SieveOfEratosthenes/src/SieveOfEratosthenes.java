@@ -20,16 +20,36 @@ public class SieveOfEratosthenes{
 
     public void seiveOfEratosthenes(ArrayList<Integer> l){
         List<Integer> list = l;
-        for(int i  = 0; i < list.size(); i++){
-            int p = list.get(i);
-            int n = list.size();
-            for(int item : list){
-
+        List<Integer> marked = new ArrayList<>();
+        List<Integer> unmarked = new ArrayList<>();
+        for(int item: list){//for every number in list
+            int cons = 2;//the beginning multiple
+            for(int i  = 1; i < list.size(); i++){//every position in list
+                int mult = item*cons;// multiple being checked
+                int pos = list.get(i);//item at the position i being checked
+                if(mult == pos
+                        && !marked.contains(pos)){
+                    // if the multiple of the item is at the position of i being checked and if it is not already marked
+                    marked.add(pos);//the position is marked
+                    cons++;//multiple is increased
+                }else if(!unmarked.contains(pos)){
+                    unmarked.add(pos);
+                }
             }
         }
-
+        System.out.print("Numbers: ");
         for(int a : list){//prints final prime numbers
-            System.out.println(a);
+            System.out.print(a + " ");
+        }
+        System.out.println();
+        System.out.print("Positions Marked: ");
+        for(int a: marked){
+            System.out.print(a + " ");
+        }
+        System.out.println();
+        System.out.print("Prime Numbers: ");
+        for(int a : unmarked){//prints final prime numbers
+            System.out.print(a + " ");
         }
     }
 
