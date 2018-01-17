@@ -23,18 +23,15 @@ public class SieveOfEratosthenes{
         List<Integer> marked = new ArrayList<>();
         List<Integer> unmarked = new ArrayList<>();
         for(int item: list){//for every number in list
-            int cons = 2;//the beginning multiple
-            for(int i  = 1; i < list.size(); i++){//every position in list
-                int mult = item*cons;// multiple being checked
-                int pos = list.get(i);//item at the position i being checked
-                if(mult == pos
-                        && !marked.contains(pos)){
-                    // if the multiple of the item is at the position of i being checked and if it is not already marked
-                    marked.add(pos);//the position is marked
-                    cons++;//multiple is increased
-                }else if(!unmarked.contains(pos)){
-                    unmarked.add(pos);
-                }
+            for(int i  = 2; (i * item) <= list.get(list.size()-1); i++){//every position in list while the multiplier
+               int multiplier = i * item;
+               for(int num: list){//for every number in the list given
+                   if(num == multiplier && !marked.contains(num)){
+                       marked.add(num);
+                   }else if(num != multiplier && !unmarked.contains(num)){
+                       unmarked.add(num);
+                   }
+               }
             }
         }
         System.out.print("Numbers: ");
