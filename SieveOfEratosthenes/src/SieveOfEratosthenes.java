@@ -20,34 +20,37 @@ public class SieveOfEratosthenes{
 
     public void seiveOfEratosthenes(ArrayList<Integer> l){
         List<Integer> list = l;
-        List<Integer> marked = new ArrayList<>();
-        List<Integer> unmarked = new ArrayList<>();
-        for(int item: list){//for every number in list
-            for(int i  = 2; (i * item) <= list.get(list.size()-1); i++){//every position in list while the multiplier
-               int multiplier = i * item;
-               for(int num: list){//for every number in the list given
-                   if(num == multiplier && !marked.contains(num)){
-                       marked.add(num);
-                   }else if(num != multiplier && !unmarked.contains(num)){
-                       unmarked.add(num);
-                   }
-               }
+        List<Integer> nonPrimes = new ArrayList<>();
+        List<Integer> primes = new ArrayList<>();
+        int p = 2, i = 2, n = list.size()+1;
+        boolean flag = true, flag2 = true;
+        while(flag){
+            while(i!=n && (i*p)<=n){//enumerate the multiples of the prime
+                nonPrimes.add(i*p);
+                list.remove(new Integer(i*p));
+                i++;
             }
+            while(flag2){//next prime or bust
+                for(int nextPrime: list){
+                    if(p < nextPrime && !nonPrimes.contains(nextPrime)){
+                        primes.add(p);
+                        list.remove(new Integer(p));
+                        p = nextPrime;
+                        flag2 = false;
+                        break;
+                    }else if(nonPrimes.contains(nextPrime)){
+                        flag = false;
+                    }
+                }
+            }
+            flag2 = true;
         }
         System.out.print("Numbers: ");
-        for(int a : list){//prints final prime numbers
-            System.out.print(a + " ");
-        }
-        System.out.println();
-        System.out.print("Positions Marked: ");
-        for(int a: marked){
-            System.out.print(a + " ");
-        }
-        System.out.println();
+        printArray(list);
+        System.out.print("Non-Prime Numbers: ");
+        printArray(nonPrimes);
         System.out.print("Prime Numbers: ");
-        for(int a : unmarked){//prints final prime numbers
-            System.out.print(a + " ");
-        }
+        printArray(primes);
     }
 
     public static void main(String[] args){
@@ -57,15 +60,23 @@ public class SieveOfEratosthenes{
         in.close();
     }
 
-    public SieveOfEratosthenes(int size){
+    private SieveOfEratosthenes(int size){
         this.seiveOfEratosthenes(this.initArrayList(size));
     }
 
-    public ArrayList<Integer> initArrayList(int size){
+    private ArrayList<Integer> initArrayList(int size){
         ArrayList<Integer> a = new ArrayList<>();
         for(int i = 2; i <= size; i++){
             a.add(i);
         }
         return a;
+    }
+
+    private void printArray(List<Integer> a){
+        System.out.println();
+        for(int i: a){
+            System.out.print(i + " ");
+        }
+        System.out.println();
     }
 }
