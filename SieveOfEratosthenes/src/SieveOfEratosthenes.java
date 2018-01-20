@@ -23,10 +23,12 @@ public class SieveOfEratosthenes{
         List<Integer> nonPrimes = new ArrayList<>();
         List<Integer> primes = new ArrayList<>();
         int p = 2, i = 2, n = list.size()+1;
-        boolean flag = true, flag2 = true;
-        while(flag){
+        boolean flag2 = true;
+        while(list.size() != 0){
             while(i!=n && (i*p)<=n){//enumerate the multiples of the prime
-                nonPrimes.add(i*p);
+                if(!nonPrimes.contains(i*p)){
+                    nonPrimes.add(i*p);
+                }
                 list.remove(new Integer(i*p));
                 i++;
             }
@@ -38,11 +40,11 @@ public class SieveOfEratosthenes{
                         p = nextPrime;
                         flag2 = false;
                         break;
-                    }else if(nonPrimes.contains(nextPrime)){
-                        flag = false;
                     }
                 }
             }
+            n = list.size()+1;
+            i = 2;
             flag2 = true;
         }
         System.out.print("Numbers: ");
