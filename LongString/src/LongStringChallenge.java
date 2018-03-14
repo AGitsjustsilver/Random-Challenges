@@ -1,4 +1,4 @@
-package src;
+//package src;
 
 import java.util.Scanner;
 
@@ -80,10 +80,11 @@ public class LongStringChallenge{
         for (int a : oIndex) {
             end += ALPH[a];
         }
-        for (int i = end.length()-1; i >= 0; i--) {
+        boolean underScore = false;
+        for (int i = end.length()-1; i >= 0 && !underScore; i--) {
             if(end.charAt(i) == '_'){
                 System.out.println(end.substring(0,i));
-                break;
+                underScore = true;
             }
         }
     }
