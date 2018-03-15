@@ -51,21 +51,24 @@ public class LongStringChallenge{
     public static String end = "";
 
     public static void main(String[] args) {
-        Scanner s = new Scanner(System.in);
-        System.out.println("Enter a ridiculusly long string with letters a-z including underscores:");
-        lSC(s.next());
-        s.close();
+        System.out.println(STRANG);
+        System.out.println("Turns into");
+        lSC(STRANG);
     } 
 
     public static void lSC(String s){
         // counts occurence
+        boolean occured;
         for (int i = 0; i < s.length(); i++) {
-            for (int g = 0; g < ALPH.length; g++) {
+            occured = false;
+            for (int g = 0; g < ALPH.length && !occured; g++) {
                 if (s.charAt(i) == ALPH[g]) {
                     o[g] += 1;
+                    occured = true;
                 }
             }
         }
+        //sorts the indexes
         for (int i = 0; i < o.length; i++) {
             int max = -1,maxIndex = 0;
             for (int g = 0; g < oIndex.length; g++) {
