@@ -53,10 +53,12 @@ public class LongStringChallenge{
         System.out.println(STRANG);
         System.out.println("Turns into");
         lSC(STRANG);
-    } 
+        lSC2(STRANG);
+    }
 
     public static void lSC(String s){
         // counts occurence
+        final long start = System.currentTimeMillis();
         boolean occured;
         for (int i = 0; i < s.length(); i++) {
             occured = false;
@@ -89,16 +91,40 @@ public class LongStringChallenge{
                 underScore = true;
             }
         }
+        final long end = System.currentTimeMillis();
+        System.out.printf("It took: %d Milliseconds, for LSC to finish\n", end - start);
     }
 
-    private static int[] asciiVal = new int[127];
-    private static int[] maxVals = new int[127];
+    // holds the occurrences of each character in the 128 ascii values
+    private static int[] asciiVal = new int[128];
+    // holds the index or ascii value of the characters sorted from high to low
+    private static int[] maxVals = new int[128];
 
     public static void lSC2(String s){
+        final long statrt = System.currentTimeMillis();
         for(int i = 0; i < s.length(); i++){
             asciiVal[(int)s.charAt(i)]++;
         }
-
+        for(int i = 0; i < asciiVal.length; i ++){
+            int max = -1, maxIndex = 0;
+            for(int g = 0; g < maxVals.length; g++){
+                if (asciiVal[g] > max){
+                    max = asciiVal[g];
+                    maxIndex = g;
+                }
+            }
+            asciiVal[maxIndex] = 0;
+            maxVals[i] = maxIndex;
+        }
+        StringBuilder sb = new StringBuilder();
+        int i = 0;
+        while(maxVals[i] != 95){
+            sb.append(((char) maxVals[i]));
+            i++;
+        }
+        final long end = System.currentTimeMillis();
+        System.out.println(sb.toString());
+        System.out.printf("It took: %d Milliseconds, for LSC Modified to finish\n", end - statrt);
     }
 
 
